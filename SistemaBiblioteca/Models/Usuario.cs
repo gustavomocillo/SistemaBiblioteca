@@ -13,6 +13,6 @@ namespace SistemaBiblioteca.Models
         public string Email { get; set; }
         public string CPF { get; set; }
 
-        IList<Emprestimo> Emprestimos { get; set; } = new List<Emprestimo>();
+        public IList<Emprestimo> Emprestimos { get; set; } = new List<Emprestimo>();
     }
 }

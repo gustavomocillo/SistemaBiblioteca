@@ -12,6 +12,6 @@ namespace SistemaBiblioteca.Models
         public string Nome { get; set; }
         public DateOnly DataNascimento { get; set; }
 
-        IList<Livro> Livros { get; set; } = new List<Livro>();
+        public IList<Livro> Livros { get; set; } = new List<Livro>();
     }
 }

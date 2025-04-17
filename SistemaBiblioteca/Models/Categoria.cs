@@ -11,6 +11,6 @@ namespace SistemaBiblioteca.Models
         public int Id { get; set; }
         public string Nome { get; set; }
 
-        IList<Livro> Livros { get; set; } = new List<Livro>();
+        public IList<Livro> Livros { get; set; } = new List<Livro>();
     }
 }

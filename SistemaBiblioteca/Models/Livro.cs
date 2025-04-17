@@ -20,6 +20,6 @@ namespace SistemaBiblioteca.Models
         public int IdCategoria { get; set; }
         public Categoria Categoria { get; set; }
 
-        IList<Emprestimo> Emprestimos { get; set; } = new List<Emprestimo>();
+        public IList<Emprestimo> Emprestimos { get; set; } = new List<Emprestimo>();
     }
 }
