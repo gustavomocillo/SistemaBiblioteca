@@ -16,6 +16,7 @@ namespace SistemaBiblioteca.Configurations
             builder.ToTable("Usuarios");
             builder.HasKey(u => u.Id);
             builder.Property(u => u.Nome).HasMaxLength(120).IsRequired();
+            builder.Property(u => u.Senha).HasMaxLength(10).IsRequired();
             builder.Property(u => u.Email).IsRequired();
             builder.Property(u => u.CPF).HasColumnType("CHAR(11)").IsRequired();
 
