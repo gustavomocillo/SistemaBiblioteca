@@ -17,7 +17,7 @@ namespace SistemaBiblioteca.Configurations
             builder.HasKey(l => l.Id);
             builder.Property(l => l.Titulo).IsRequired();
             builder.Property(l => l.QuantidadePaginas).HasColumnType("SMALLINT").IsRequired();
-            builder.Property(l => l.Ano).HasColumnType("SMALLINT").IsRequired();
+            builder.Property(l => l.Ano).HasColumnType("SMALLINT");
             builder.Property(l => l.ISBN13).HasColumnType("CHAR(13)");
         }
     }
