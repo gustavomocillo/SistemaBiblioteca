@@ -78,7 +78,9 @@ namespace SistemaBiblioteca.Services
                     {
                         foreach (var categoria in categorias)
                         {
-                            Console.WriteLine($"ID: {categoria.Id}, {categoria.Nome}");
+                            Console.WriteLine($"ID: {categoria.Id}");
+                            Console.WriteLine($"Nome: {categoria.Nome}");
+                            Console.WriteLine("------------------------------------------------------");
                         }
                     }
 
