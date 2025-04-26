@@ -13,7 +13,7 @@ using System.Xml;
 
 namespace SistemaBiblioteca.Services
 {
-    internal class UsuarioService()
+    internal class UsuarioService
     {
         public void CriarUsuario()
         {
@@ -193,11 +193,141 @@ namespace SistemaBiblioteca.Services
         }
         public void AtualizarUsuario()
         {
+            while (true)
+            {
+                Console.WriteLine("ID do Usuário que deseja atualizar:");
 
+                if (!int.TryParse(Console.ReadLine(), out int id))
+                {
+                    Console.WriteLine("ID inválido. [Enter]");
+                    Console.ReadKey();
+                    continue;
+                }
+
+                using (var db = new AppDbContext())
+                {
+                    var usuario = db.Usuarios.Find(id);
+
+                    if (usuario == null)
+                    {
+                        Console.WriteLine($"Não existe um Usuário com o ID {id}. Tente Novamente. [Enter]");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    Console.WriteLine("Novo email:");
+                    string email = Console.ReadLine()?.Trim();
+
+                    Console.WriteLine("Senha (até 10 caracteres):");
+                    string senha = Console.ReadLine()?.Trim();
+
+                    if (!EmailValido(email))
+                    {
+                        Console.WriteLine("Email inválido. [Enter]");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    if (db.Usuarios.Any(u => u.Email == email))
+                    {
+                        Console.WriteLine("Usuário já existe. [Enter]");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    if (senha.Length > 10 || string.IsNullOrWhiteSpace(senha))
+                    {
+                        Console.WriteLine("Senha inválida. [Enter]");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    Console.WriteLine("Nome: ");
+                    string nome = Console.ReadLine()?.Trim();
+
+                    if (nome.Length > 120 || string.IsNullOrWhiteSpace(nome))
+                    {
+                        Console.WriteLine("Nome inválido. [Enter]");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    Console.WriteLine("CPF (apenas números): ");
+                    string cpf = Console.ReadLine()?.Trim();
+
+                    if (cpf.Length != 11 || !cpf.All(char.IsDigit))
+                    {
+                        Console.WriteLine("CPF inválido. [Enter]");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    try
+                    {
+                        usuario.Nome = nome;
+                        usuario.Email = email;
+                        usuario.Senha = senha;
+                        usuario.CPF = cpf;
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Erro ao atualizar usuário.");
+                        Console.WriteLine(ex.ToString());
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    Console.WriteLine("\nUsuário atualizado. [Enter]");
+                    Console.ReadKey();
+                    break;
+                }   
+            }
         }
         public void ExcluirUsuario()
         {
+            while (true)
+            {
+                Console.WriteLine("ID do Usuário que deseja remover:");
 
+                if (!int.TryParse(Console.ReadLine(), out int id))
+                {
+                    Console.WriteLine("ID inválido. [Enter]");
+                    Console.ReadKey();
+                    continue;
+                }
+
+                using (var db = new AppDbContext())
+                {
+                    var usuario = db.Usuarios.Find(id);
+
+                    if (usuario == null)
+                    {
+                        Console.WriteLine($"Não existe um Usuário com o ID {id}. Tente Novamente. [Enter]");
+                        Console.ReadKey();
+                        continue;
+                    }
+                    else
+                    {
+                        try
+                        {
+                            db.Usuarios.Remove(usuario);
+                            db.SaveChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Erro ao remover Usuário.");
+                            Console.WriteLine(ex.ToString());
+                            Console.ReadKey();
+                            continue;
+                        }
+
+                        Console.WriteLine("\nUsuário removido. [Enter]");
+                        Console.ReadKey();
+                        break;
+                    }
+                }
+            }
         }
 
 
