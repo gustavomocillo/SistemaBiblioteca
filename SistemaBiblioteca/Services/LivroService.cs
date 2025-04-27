@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using SistemaBiblioteca.Menus;
+using SistemaBiblioteca.Configurations.SessaoLogin;
 
 namespace SistemaBiblioteca.Services
 {
@@ -145,6 +147,7 @@ namespace SistemaBiblioteca.Services
 
                     Console.WriteLine("Livro adicionado com sucesso! [Enter]");
                     Console.ReadKey();
+                    MenuAdmin.Exibir();
                     break;
                 }
             }
@@ -170,6 +173,11 @@ namespace SistemaBiblioteca.Services
                 {
                     ExibirLivros(livros);
                 }
+
+                if (Sessao.AdminLogado)
+                    MenuAdmin.Exibir();
+                else
+                    MenuUsuario.Exibir(Sessao.Usuario);
             }
         }
         public void ConsultarLivrosEmprestados()
@@ -194,6 +202,8 @@ namespace SistemaBiblioteca.Services
                 {
                     ExibirLivros(livros);
                 }
+
+                MenuAdmin.Exibir();
             }
         }
         public void ConsultarLivrosDisponiveis()
@@ -218,6 +228,11 @@ namespace SistemaBiblioteca.Services
                 {
                     ExibirLivros(livros);
                 }
+
+                if (Sessao.AdminLogado)
+                    MenuAdmin.Exibir();
+                else
+                    MenuUsuario.Exibir(Sessao.Usuario);
             }
         }
         public void BuscarPorId()
@@ -253,6 +268,11 @@ namespace SistemaBiblioteca.Services
                     {
                         ExibirLivros(livro);
                     }
+
+                    if (Sessao.AdminLogado)
+                        MenuAdmin.Exibir();
+                    else
+                        MenuUsuario.Exibir(Sessao.Usuario);
                 }
             }
         }
@@ -291,6 +311,11 @@ namespace SistemaBiblioteca.Services
                     {
                         ExibirLivros(livro);
                     }
+
+                    if (Sessao.AdminLogado)
+                        MenuAdmin.Exibir();
+                    else
+                        MenuUsuario.Exibir(Sessao.Usuario);
                 }
             }
         }
@@ -335,6 +360,11 @@ namespace SistemaBiblioteca.Services
                     {
                         ExibirLivros(livro);
                     }
+
+                    if (Sessao.AdminLogado)
+                        MenuAdmin.Exibir();
+                    else
+                        MenuUsuario.Exibir(Sessao.Usuario);
                 }
             }
         }
@@ -484,6 +514,7 @@ namespace SistemaBiblioteca.Services
 
                         Console.WriteLine($"{titulo} foi atualizado com sucesso! [Enter]");
                         Console.ReadKey();
+                        MenuAdmin.Exibir();
                         break;
                     }
                 }
@@ -552,6 +583,7 @@ namespace SistemaBiblioteca.Services
 
                     Console.WriteLine("\nLivro removido. [Enter]");
                     Console.ReadKey();
+                    MenuAdmin.Exibir();
                     break;
                 }
             }
@@ -562,6 +594,7 @@ namespace SistemaBiblioteca.Services
         {
             foreach (var livro in livros)
             {
+                Console.Clear();
                 bool estaEmprestado = livro.Emprestimos.Any(e => !e.Devolvido);
 
                 Console.WriteLine($"ID: {livro.Id}");

@@ -1,4 +1,6 @@
-﻿using SistemaBiblioteca.Context;
+﻿using SistemaBiblioteca.Configurations.SessaoLogin;
+using SistemaBiblioteca.Context;
+using SistemaBiblioteca.Menus;
 using SistemaBiblioteca.Models;
 using System;
 using System.Collections.Generic;
@@ -59,6 +61,7 @@ namespace SistemaBiblioteca.Services
 
                 Console.WriteLine("Categoria adicionada com sucesso! [Enter]");
                 Console.ReadKey();
+                MenuAdmin.Exibir();
                 break;
             }
         }
@@ -76,6 +79,7 @@ namespace SistemaBiblioteca.Services
                     }
                     else
                     {
+                        Console.Clear();
                         foreach (var categoria in categorias)
                         {
                             Console.WriteLine($"ID: {categoria.Id}");
@@ -86,6 +90,10 @@ namespace SistemaBiblioteca.Services
 
                     Console.WriteLine("\nConsulta finalizada. [Enter]");
                     Console.ReadKey();
+                    if (Sessao.AdminLogado)
+                        MenuAdmin.Exibir();
+                    else
+                        MenuUsuario.Exibir(Sessao.Usuario);
                 }
             }
             catch (Exception ex)
@@ -151,6 +159,7 @@ namespace SistemaBiblioteca.Services
 
                             Console.WriteLine("\nCategoria atualizada. [Enter]");
                             Console.ReadKey();
+                            MenuAdmin.Exibir();
                             break;
                         }
                         else
@@ -203,6 +212,7 @@ namespace SistemaBiblioteca.Services
 
                         Console.WriteLine("\nCategoria removida. [Enter]");
                         Console.ReadKey();
+                        MenuAdmin.Exibir();
                         break;
                     }
                 }

@@ -1,4 +1,5 @@
 ﻿using SistemaBiblioteca.Context;
+using SistemaBiblioteca.Menus;
 using SistemaBiblioteca.Models;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,7 @@ namespace SistemaBiblioteca.Services
 
                 Console.WriteLine("Autor adicionado com sucesso! [Enter]");
                 Console.ReadKey();
+                MenuAdmin.Exibir();
                 break;
             }
         }
@@ -86,6 +88,7 @@ namespace SistemaBiblioteca.Services
                     }
                     else
                     {
+                        Console.Clear();
                         foreach (var autor in autores)
                         {
                             Console.WriteLine($"ID: {autor.Id}");
@@ -97,6 +100,7 @@ namespace SistemaBiblioteca.Services
 
                     Console.WriteLine("\nConsulta finalizada. [Enter]");
                     Console.ReadKey();
+                    MenuAdmin.Exibir();
                 }
             }
             catch (Exception ex)
@@ -172,6 +176,7 @@ namespace SistemaBiblioteca.Services
 
                             Console.WriteLine("\nAutor atualizado. [Enter]");
                             Console.ReadKey();
+                            MenuAdmin.Exibir();
                             break;
                         }
                         else
@@ -224,6 +229,7 @@ namespace SistemaBiblioteca.Services
 
                         Console.WriteLine("\nAutor removido. [Enter]");
                         Console.ReadKey();
+                        MenuAdmin.Exibir();
                         break;
                     }
                 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SistemaBiblioteca.Configurations.SessaoLogin;
 using SistemaBiblioteca.Context;
+using SistemaBiblioteca.Menus;
 using SistemaBiblioteca.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,8 @@ namespace SistemaBiblioteca.Services
         {
             while (true)
             {
-                using (var db = new AppDbContext()) {
+                using (var db = new AppDbContext())
+                {
 
                     Console.WriteLine("Email:");
                     string email = Console.ReadLine()?.Trim();
@@ -89,8 +92,15 @@ namespace SistemaBiblioteca.Services
                         break;
                     }
 
-                    Console.WriteLine("Usuario adicionado com sucesso! [Enter]");
+                    Console.WriteLine("Usuario criado com sucesso! [Enter]");
                     Console.ReadKey();
+                    if (Sessao.AdminLogado)
+                        MenuAdmin.Exibir();
+                    else
+                    {
+                        Sessao.Usuario = usuario;
+                        MenuUsuario.Exibir(Sessao.Usuario);
+                    }
                     break;
                 }
             }
@@ -124,7 +134,9 @@ namespace SistemaBiblioteca.Services
 
                     if (email == "acesso@admin.com" && senha == "3009121514")
                     {
-                        // pula pro menu admin
+                        Sessao.AdminLogado = true;
+                        Console.Clear();
+                        MenuAdmin.Exibir();
                     }
 
                     var usuario = db.Usuarios.FirstOrDefault(u => u.Email == email);
@@ -138,8 +150,10 @@ namespace SistemaBiblioteca.Services
 
                     if (usuario.Senha == senha)
                     {
+                        Sessao.Usuario = usuario;
                         Console.WriteLine($"Seja bem-vindo(a) {usuario.Nome}! [Enter]");
                         Console.ReadKey();
+                        MenuUsuario.Exibir(usuario);
                         return usuario;
                     }
                     else
@@ -159,6 +173,7 @@ namespace SistemaBiblioteca.Services
                     .AsNoTracking()
                     .Include(u => u.Emprestimos)
                     .ThenInclude(e => e.Livro)
+                    .OrderBy(u => u.Nome)
                     .ToList();
 
                 if (usuarios.Count == 0)
@@ -168,6 +183,8 @@ namespace SistemaBiblioteca.Services
                 }
                 else
                     ExibeUsuarios(usuarios);
+
+                MenuAdmin.Exibir();
             }
         }
         public void ConsultarUsuariosComEmprestimo()
@@ -189,6 +206,8 @@ namespace SistemaBiblioteca.Services
                 }
                 else
                     ExibeUsuarios(usuarios);
+
+                MenuAdmin.Exibir();
             }
         }
         public void AtualizarUsuario()
@@ -280,8 +299,9 @@ namespace SistemaBiblioteca.Services
 
                     Console.WriteLine("\nUsuário atualizado. [Enter]");
                     Console.ReadKey();
+                    MenuAdmin.Exibir();
                     break;
-                }   
+                }
             }
         }
         public void ExcluirUsuario()
@@ -324,6 +344,7 @@ namespace SistemaBiblioteca.Services
 
                         Console.WriteLine("\nUsuário removido. [Enter]");
                         Console.ReadKey();
+                        MenuAdmin.Exibir();
                         break;
                     }
                 }
@@ -351,6 +372,10 @@ namespace SistemaBiblioteca.Services
                 {
                     Console.WriteLine("Livros Emprestados: " + string.Join(", ", livrosEmprestados
                         .Select(le => le.Livro.Titulo)));
+                }
+                else
+                {
+                    Console.WriteLine("Livros Emprestados: Não");
                 }
                 Console.WriteLine($"--------------------------------------------------");
             }

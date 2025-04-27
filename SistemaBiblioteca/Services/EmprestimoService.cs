@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SistemaBiblioteca.Configurations.SessaoLogin;
 using SistemaBiblioteca.Context;
+using SistemaBiblioteca.Menus;
 using SistemaBiblioteca.Models;
 using System;
 using System.Collections.Generic;
@@ -112,6 +114,7 @@ namespace SistemaBiblioteca.Services
 
                     Console.WriteLine("\nEmpréstimo concluido. [Enter]");
                     Console.ReadKey();
+                    MenuAdmin.Exibir();
                     break;
                 }
             }
@@ -198,6 +201,7 @@ namespace SistemaBiblioteca.Services
 
                     Console.WriteLine("\nEmpréstimo concluido. [Enter]");
                     Console.ReadKey();
+                    MenuUsuario.Exibir(Sessao.Usuario);
                     break;
                 }
             }
@@ -221,6 +225,8 @@ namespace SistemaBiblioteca.Services
                 {
                     ExibirEmprestimos(emprestimos);
                 }
+
+                MenuAdmin.Exibir();
             }
         }
         public void ConsultarEmprestimosDoUsuario(Usuario? usuario)
@@ -243,6 +249,11 @@ namespace SistemaBiblioteca.Services
                 {
                     ExibirEmprestimos(emprestimos);
                 }
+
+                if (Sessao.AdminLogado)
+                    MenuAdmin.Exibir();
+                else
+                    MenuUsuario.Exibir(Sessao.Usuario);
             }
         }
         public void RegistrarDevolucao()
@@ -279,6 +290,10 @@ namespace SistemaBiblioteca.Services
 
                 Console.WriteLine("Devolução registrada com sucesso. [Enter]");
                 Console.ReadKey();
+                if (Sessao.AdminLogado)
+                    MenuAdmin.Exibir();
+                else
+                    MenuUsuario.Exibir(Sessao.Usuario);
             }
         }
 
@@ -287,6 +302,7 @@ namespace SistemaBiblioteca.Services
 
         private static void ExibirEmprestimos(List<Emprestimo> emprestimos)
         {
+            Console.Clear();
             foreach (var emprestimo in emprestimos)
             {
                 Console.WriteLine($"ID: {emprestimo.Id}");
